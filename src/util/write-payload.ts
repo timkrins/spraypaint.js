@@ -186,7 +186,7 @@ export class WritePayload<T extends SpraypaintBase> {
   ) {
     model.clearErrors()
 
-    if (!model.isPersisted) {
+    if (!model.isPersisted && !model.temp_id) {
       model.temp_id = tempId.generate()
     }
 
