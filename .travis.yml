@@ -1,10 +1,19 @@
 language: node_js
 
 node_js:
-- lts/*
-- node
+  - lts/*
+  - node
+
+env:
+  - TYPESCRIPT_VERSION=rc
+  - TYPESCRIPT_VERSION=3.7
+  - TYPESCRIPT_VERSION=3.6
+  - TYPESCRIPT_VERSION=3.5
+  - TYPESCRIPT_VERSION=3.4
+  - TYPESCRIPT_VERSION=3.3
 
 script:
+  - yarn add --dev typescript@$TYPESCRIPT_VERSION
   - yarn lint:ci
   - yarn test:ci
 
