@@ -145,7 +145,7 @@ export const applyModelConfig = <T extends typeof SpraypaintBase>(
 
   for (const k in config) {
     if (config.hasOwnProperty(k)) {
-      ;(ModelClass as any)[k] = config[k]
+      ModelClass[k] = config[k]
     }
   }
 
