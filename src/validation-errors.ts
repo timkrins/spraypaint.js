@@ -23,7 +23,7 @@ export class ValidationError<T extends SpraypaintBase>
     let key: keyof IValidationError<T>
 
     for (key in options) {
-      this[key] = options[key]
+      ;(this as any)[key] = options[key]
     }
   }
 }

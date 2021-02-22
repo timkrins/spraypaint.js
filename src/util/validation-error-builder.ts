@@ -53,7 +53,7 @@ export class ValidationErrorBuilder<T extends SpraypaintBase> {
     error: JsonapiError
   ) {
     let attribute = this.model.klass.deserializeKey(meta.attribute)
-    errorsAccumulator[attribute] = {
+    ;(errorsAccumulator as any)[attribute] = {
       title: error.title as string,
       code: error.code as string,
       attribute: meta.attribute,
@@ -86,12 +86,12 @@ export class ValidationErrorBuilder<T extends SpraypaintBase> {
       // won't be able to keep up. Validate vue.js when changing this code:
       const newErrs: ValidationErrors<R> = {}
       Object.keys(relatedObject.errors).forEach(key => {
-        newErrs[key] = relatedObject.errors[key]
+        ;(newErrs as any)[key] = relatedObject.errors[key]
       })
       Object.keys(relatedAccumulator).forEach(key => {
         let error = relatedAccumulator[key]
         if (error !== undefined) {
-          newErrs[key] = error
+          ;(newErrs as any)[key] = error
         }
       })
       relatedObject.errors = newErrs

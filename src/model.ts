@@ -147,7 +147,7 @@ export const applyModelConfig = <T extends typeof SpraypaintBase>(
 
   for (k in config) {
     if (config.hasOwnProperty(k)) {
-      ModelClass[k] = config[k]
+      ;(ModelClass as any)[k] = config[k]
     }
   }
 
@@ -422,7 +422,7 @@ export class SpraypaintBase {
   @nonenumerable private _links!: ModelRecord<this>
   @nonenumerable private _originalLinks!: ModelRecord<this>
   @nonenumerable private __meta__: any
-  @nonenumerable private _errors: ValidationErrors<this> = {}
+  @nonenumerable private _errors: ValidationErrors<any> = {}
 
   constructor(attrs?: Record<string, any>) {
     this._initializeAttributes()
@@ -679,11 +679,11 @@ export class SpraypaintBase {
     }
   }
 
-  get errors(): ValidationErrors<this> {
+  get errors(): ValidationErrors<any> {
     return this._errors
   }
 
-  set errors(errs: ValidationErrors<this>) {
+  set errors(errs: ValidationErrors<any>) {
     this._errors = errs
   }
 
