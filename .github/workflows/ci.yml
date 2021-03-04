@@ -20,7 +20,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: Use Typescript
-      run: yarn remove @types/node && yarn add --dev typescript@${{ matrix.ts-version }}
+      run: yarn add --dev typescript@${{ matrix.ts-version }}
     - name: Install
       run: yarn install
     - name: Run Lint
