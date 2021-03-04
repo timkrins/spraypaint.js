@@ -7,14 +7,21 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 15.x]
+        ts-version: [3.x, 4.x]
+
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
-        node-version: 12
+        node-version: ${{ matrix.node-version }}
     - name: Install
       run: yarn install
+    - name: Use Typescript ${{ matrix.ts-version }}
+      run: yarn add --dev typescript@${{ matrix.ts-version }}
     - name: Run Lint
       run: yarn lint:ci
     - name: Run Tests
