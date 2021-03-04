@@ -18,8 +18,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Use Typescript ${{ matrix.ts-version }}
-      run: yarn add --dev typescript@${{ matrix.ts-version }}
+    - name: Use Typescript and use correct Node types for TS ${{ matrix.ts-version }} and Node ${{ matrix.node-version }}
+      run: yarn add --dev typescript@${{ matrix.ts-version }} @types/node@${{ matrix.node-version }}
     - name: Install
       run: yarn install
     - name: Run Lint
