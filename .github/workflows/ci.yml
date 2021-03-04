@@ -14,8 +14,8 @@ jobs:
       with:
         node-version: 12
     - name: Install
-      run: yarn install
+      run: npm install
     - name: Run Lint
-      run: yarn lint:ci
+      run: npm run lint:ci
     - name: Run Tests
-      run: yarn test:ci
+      run: npm run test:ci
