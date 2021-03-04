@@ -21,7 +21,7 @@
     "coverage": "npm run build:coverage && node --harmony ./node_modules/istanbul/lib/cli.js cover --root ./build/src --report lcov --report text ./node_modules/mocha/bin/_mocha ./build/test/**/*.test.js",
     "test": "NODE_ENV=test mocha --opts test/mocha.opts",
     "test:watch": "npm run test --watch",
-    "test:all-versions": "npm clean cache —force && tav",
+    "test:all-versions": "tav",
     "test:es6-compatibility": "npm run build:es6 && mocha --opts test/es6-compatibility/mocha.opts",
     "test:ci": "npm run test:all-versions && npm run test:es6-compatibility && npm run test",
     "lint": "npm run lint:ci --fix",
