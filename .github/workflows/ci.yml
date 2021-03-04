@@ -18,10 +18,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Install
-      run: yarn install
     - name: Use Typescript ${{ matrix.ts-version }}
       run: yarn add --dev typescript@${{ matrix.ts-version }}
+    - name: Install
+      run: yarn install
     - name: Run Lint
       run: yarn lint:ci
     - name: Run Tests
