@@ -168,6 +168,7 @@ export class SpraypaintBase {
   static strictAttributes: boolean = false
   static logger: ILogger = defaultLogger
   static sync: boolean = false
+  static credentials: "same-origin" | "omit" | "include" | undefined
   static clientApplication: string | null = null
   static patchAsPost: boolean = false
 
@@ -422,6 +423,7 @@ export class SpraypaintBase {
   @nonenumerable private _links!: ModelRecord<this>
   @nonenumerable private _originalLinks!: ModelRecord<this>
   @nonenumerable private __meta__: any
+  @nonenumerable private _metaDirty: boolean = false
   @nonenumerable private _errors: ValidationErrors<this> = {}
 
   constructor(attrs?: Record<string, any>) {
@@ -510,7 +512,8 @@ export class SpraypaintBase {
       Object.keys(attrs).forEach(k => {
         let self = this as any
         let changes = this.changes() as any
-        if (self[k] !== attrs[k] && !changes[k]) {
+        let attrDef = this.klass.attributeList[k]
+        if (attrDef.dirtyChecker(self[k], attrs[k]) && !changes[k]) {
           diff[k] = [self[k], attrs[k]]
           self[k] = attrs[k]
 
@@ -650,8 +653,19 @@ export class SpraypaintBase {
     }
   }
 
-  setMeta(metaObj: object | undefined) {
+  setMeta(metaObj: object | undefined, markDirty = true) {
     this.__meta__ = metaObj
+    if (markDirty) {
+      this._metaDirty = true
+    }
+  }
+
+  get meta(): object {
+    return this.__meta__ || {}
+  }
+
+  get isMetaDirty(): boolean {
+    return this._metaDirty
   }
 
   relationshipResourceIdentifiers(relationNames: string[]) {
@@ -688,7 +702,7 @@ export class SpraypaintBase {
   }
 
   get hasError() {
-    return Object.keys(this._errors).length > 1
+    return !!Object.keys(this._errors).length
   }
 
   clearErrors() {
@@ -741,6 +755,10 @@ export class SpraypaintBase {
         Accept: "application/vnd.api+json",
         ["Content-Type"]: "application/vnd.api+json"
       } as any
+    }
+
+    if (this.credentials) {
+      options.credentials = this.credentials
     }
 
     if (this.clientApplication) {
@@ -829,6 +847,13 @@ export class SpraypaintBase {
 
   static extraParams<I extends typeof SpraypaintBase>(this: I, clause: any) {
     return this.scope().extraParams(clause)
+  }
+
+  static extraFetchOptions<I extends typeof SpraypaintBase>(
+    this: I,
+    options: RequestInit
+  ) {
+    return this.scope().extraFetchOptions(options)
   }
 
   static order<I extends typeof SpraypaintBase>(
@@ -1074,6 +1099,11 @@ export class SpraypaintBase {
   }
 }
 
+export type PersistedSpraypaintRecord<
+  Record extends SpraypaintBase
+> = Record & {
+  id: string
+}
 ;(<any>SpraypaintBase.prototype).klass = SpraypaintBase
 SpraypaintBase.initializeCredentialStorage()
 
