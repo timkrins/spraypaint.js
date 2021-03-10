@@ -10,7 +10,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [14.x]
+        node-version:
+          - 12.x
+          - 14.x
         ts-version:
           - 3.3.x
           - 3.4.x
