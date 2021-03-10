@@ -1,16 +1,16 @@
 name: CI
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   test:
-    name: Test
+    name: Test [Node, TypeScript]
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
-        node-version: [12.x]
+        node-version: [14.x]
         ts-version:
           - 3.3.x
           - 3.4.x
