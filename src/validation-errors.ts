@@ -30,6 +30,10 @@ export type ValidationErrors<T extends SpraypaintBase> = ErrorAttrs<
   T,
   keyof (OmitCompat<T, keyof SpraypaintBase>)
 >
+export type ValidationErrorsRelaxed<T extends SpraypaintBase> = Record<
+  string,
+  ValidationError<T> | undefined
+>
 export type ErrorAttrs<T extends SpraypaintBase, K extends keyof T> = {
   [P in K]?: IValidationError<T> | undefined
 } & {
