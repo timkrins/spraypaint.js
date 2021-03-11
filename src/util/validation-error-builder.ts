@@ -4,7 +4,7 @@ import {
   JsonapiError,
   JsonapiErrorMeta
 } from "../jsonapi-spec"
-import { ValidationErrors, ValidationErrorsRelaxed } from "../validation-errors"
+import { ValidationErrors } from "../validation-errors"
 
 export class ValidationErrorBuilder<T extends SpraypaintBase> {
   static apply<T extends SpraypaintBase>(
@@ -48,7 +48,7 @@ export class ValidationErrorBuilder<T extends SpraypaintBase> {
   }
 
   private _processResource<R extends SpraypaintBase = T>(
-    errorsAccumulator: ValidationErrorsRelaxed<R>,
+    errorsAccumulator: ValidationErrors<R>,
     meta: JsonapiErrorMeta,
     error: JsonapiError
   ) {
@@ -89,7 +89,7 @@ export class ValidationErrorBuilder<T extends SpraypaintBase> {
       // make sure to assign a new error object, instead of mutating
       // the existing one, otherwise js frameworks with object tracking
       // won't be able to keep up. Validate vue.js when changing this code:
-      const newErrs: ValidationErrorsRelaxed<R> = {}
+      const newErrs: ValidationErrors<R> = {}
       Object.keys(relatedObject.errors).forEach(key => {
         newErrs[key] = relatedObject.errors[key]
       })
