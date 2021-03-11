@@ -20,9 +20,7 @@ export class ValidationError<T extends SpraypaintBase>
   rawPayload!: Record<string, any>
 
   constructor(options: IValidationError<T>) {
-    let key: keyof IValidationError<T>
-
-    for (key in options) {
+    for (const key in options) {
       this[key] = options[key]
     }
   }
