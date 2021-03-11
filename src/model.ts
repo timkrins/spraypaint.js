@@ -32,7 +32,7 @@ import { JsonapiTypeRegistry } from "./jsonapi-type-registry"
 import { camelize, underscore, dasherize } from "inflected"
 import { ILogger, logger as defaultLogger } from "./logger"
 import { MiddlewareStack, BeforeFilter, AfterFilter } from "./middleware-stack"
-import { Omit } from "./util/omit"
+import { OmitCompat } from "./util/omit-compat"
 import { EventBus } from "./event-bus"
 
 import {
@@ -79,13 +79,13 @@ export type ModelAttrChanges<T> = { [P in keyof T]?: T[P][] } &
   Partial<Record<ModelIdFields, string[]>>
 
 export type ModelRecord<T extends SpraypaintBase> = ModelAttrs<
-  keyof (Omit<T, keyof SpraypaintBase>),
+  keyof (OmitCompat<T, keyof SpraypaintBase>),
   T
 >
 
 export type ModelAttributeChangeSet<
   T extends SpraypaintBase
-> = ModelAttrChanges<Omit<T, keyof SpraypaintBase>>
+> = ModelAttrChanges<OmitCompat<T, keyof SpraypaintBase>>
 
 export interface SaveOptions<T extends SpraypaintBase> {
   with?: IncludeScope
