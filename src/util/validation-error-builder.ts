@@ -24,7 +24,7 @@ export class ValidationErrorBuilder<T extends SpraypaintBase> {
   }
 
   apply() {
-    const errorsAccumulator: ValidationErrors<T> = {}
+    const errorsAccumulator: ValidationErrors<SpraypaintBase> = {}
 
     if (!this.payload.errors) {
       return
@@ -47,8 +47,8 @@ export class ValidationErrorBuilder<T extends SpraypaintBase> {
     this.model.errors = errorsAccumulator
   }
 
-  private _processResource<R extends SpraypaintBase = T>(
-    errorsAccumulator: ValidationErrors<R>,
+  private _processResource(
+    errorsAccumulator: ValidationErrors<SpraypaintBase>,
     meta: JsonapiErrorMeta,
     error: JsonapiError
   ) {
@@ -63,7 +63,7 @@ export class ValidationErrorBuilder<T extends SpraypaintBase> {
     }
   }
 
-  private _processRelationship<R extends SpraypaintBase>(
+  private _processRelationship(
     model: T,
     meta: JsonapiErrorMeta,
     err: JsonapiError
@@ -83,13 +83,13 @@ export class ValidationErrorBuilder<T extends SpraypaintBase> {
     if (meta.relationship) {
       this._processRelationship(relatedObject, meta.relationship, err)
     } else {
-      const relatedAccumulator: ValidationErrors<R> = {}
+      const relatedAccumulator: ValidationErrors<SpraypaintBase> = {}
       this._processResource(relatedAccumulator, meta, err)
 
       // make sure to assign a new error object, instead of mutating
       // the existing one, otherwise js frameworks with object tracking
       // won't be able to keep up. Validate vue.js when changing this code:
-      const newErrs: ValidationErrors<R> = {}
+      const newErrs: ValidationErrors<SpraypaintBase> = {}
       Object.keys(relatedObject.errors).forEach(key => {
         newErrs[key] = relatedObject.errors[key]
       })
