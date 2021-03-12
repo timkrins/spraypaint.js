@@ -424,7 +424,7 @@ export class SpraypaintBase {
   @nonenumerable private _originalLinks!: ModelRecord<this>
   @nonenumerable private __meta__: any
   @nonenumerable private _metaDirty: boolean = false
-  @nonenumerable private _errors: ValidationErrors<this> = {}
+  @nonenumerable private _errors: ValidationErrors<SpraypaintBase> = {}
 
   constructor(attrs?: Record<string, any>) {
     this._initializeAttributes()
@@ -693,11 +693,12 @@ export class SpraypaintBase {
     }
   }
 
-  get errors(): ValidationErrors<this> {
+  // NOTE: If <this> is used, causes TS error "Construct signature return types are incompatible"
+  get errors(): ValidationErrors<SpraypaintBase> {
     return this._errors
   }
 
-  set errors(errs: ValidationErrors<this>) {
+  set errors(errs: ValidationErrors<SpraypaintBase>) {
     this._errors = errs
   }
 
