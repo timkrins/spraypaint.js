@@ -710,6 +710,11 @@ export class SpraypaintBase {
     this.errors = {}
   }
 
+  // See note for get typedAttributes() - this is the same deal
+  get typedErrors(): ValidationErrors<this> {
+    return this._errors
+  }
+
   isDirty(relationships?: IncludeScope): boolean {
     const dc = new DirtyChecker(this)
     return dc.check(relationships)
